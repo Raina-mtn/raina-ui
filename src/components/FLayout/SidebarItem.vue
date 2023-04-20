@@ -7,15 +7,42 @@
     <template v-if="hasOneShowingChild(route.children,route) && (!onlyOneChild.children || onlyOneChild.noShowingChildren) && !route.alwaysShow">
       <router-link :to="onlyOneChild.path">
         <el-menu-item>
-
+          <Item
+            :icon="onlyOneChild.meta.icon"
+            :title="routeTitle(route.mata.title)"
+          />
         </el-menu-item>
       </router-link>
     </template>
+
+    <el-submenu
+      v-else
+      :index="route.path"
+    >
+      <template slot="title">
+        <Item
+          v-if="route.meta && route.meta.title"
+          :icon="route.meta.icon"
+          :title="routeTitle(route.meta.title)"
+        />
+      </template>
+      <!-- 递归调用组件本身 -->
+      <SiderbarItem
+        v-for="item in route.children"
+        :key="item.path"
+        :route="item"
+      />
+    </el-submenu>
   </div>
 </template>
 
 <script>
+import Item from './Item.vue'
 export default {
+  name:'SiderbarItem',
+  components: {
+    Item
+  },
   props:{
     //route
     route: {
@@ -56,6 +83,17 @@ export default {
       }
 
       return false
+    },
+    /**
+     * @description：判断是否需要使用i18n切换语言
+     * @param {*} langkey 标题
+     */
+    routeTitle(langkey) {
+      const name = `sidebar.${langkey}`
+      if (this.$te && this.$te(name)) {
+        return this.$t(name)
+      }
+      return langkey
     }
   }
 }
