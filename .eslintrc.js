@@ -1,7 +1,7 @@
 module.exports = {
   root: true,
   parserOptions: {
-    parser: 'babel-eslint',
+    parser: '@babel/eslint-parser',
     sourceType: 'module'
   },
   env: {
@@ -19,14 +19,15 @@ module.exports = {
       {
         singleline: 10,
         multiline: {
-          max: 1,
-          allowFirstLine: false
+          max: 1
+          // allowFirstLine: 0
         }
       }
     ],
     'vue/singleline-html-element-content-newline': 'off',
     'vue/multiline-html-element-content-newline': 'off',
-    'vue/name-property-casing': ['error', 'PascalCase'],
+    // 'vue/name-property-casing': ['error', 'PascalCase'],
+    'vue/multi-word-component-names': 0,
     'vue/no-v-html': 'off',
     'accessor-pairs': 2,
     'arrow-spacing': [
